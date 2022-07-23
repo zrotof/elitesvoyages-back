@@ -1,167 +1,196 @@
-const { evEmail } = require('../config/dotEnvConfig');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const nodemailer = require('nodemailer');
-const mailGun = require('nodemailer-mailgun-transport');
+const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
+const MAILGUN_API_URL = process.env.MAILGUN_API_URL;
+const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN;
+const MAILGUN_SENDER_EMAIL = process.env.MAILGUN_SENDER_EMAIL;
+const MAILGUN_USERNAME = process.env.MAILGUN_USERNAME;
 
-const auth = require('../config/mailConfig');
+const formData = require('form-data');
+const Mailgun = require('mailgun.js');
+const mailgun = new Mailgun(formData);
 
+
+
+const client = mailgun.client({
+    username: MAILGUN_USERNAME,
+    key: MAILGUN_API_KEY,
+    url: MAILGUN_API_URL
+})
 
 class MailService{
 
+
     //Sending a mail from the contact form on client side
-    sendContactMail(civility, firstname, lastname, email, phone, preference, subject, text, cb){
+    async sendContactMail(civility, firstname, lastname, email, phone, preference, subject, text){
 
-        let finalSubject;
-        
-        let messageBody;
-        const process = "Contact";
+        let sendingMailEstate ;
 
-        finalSubject = process + " | " + subject ;
-        
-        let preferences = "NB: je souhaite être recontacté par" + preference
+        let finalSubject = "Contact | " + subject ;
 
-        //Parse body of the mail
-        if(phone.length == 0){
-            messageBody = text + "\n\n" + civility + " " + firstname + " " + lastname +"\n" +email;
-        }
-        else{
-            messageBody = text + "\n\n" + preferences + "\n\n" + civility + " " + firstname + " " + lastname +"\n" + email +"\n" + phone;
-        }
+        let preferences = "NB: je souhaite être recontacté par " + preference
 
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-
-        const mailOptions = {
-            from: email,
-            to: evEmail,
+        let messageBody = text + "\n\n" + preferences+ "\n\n" + civility + " " + firstname + " " + lastname +"\n" +email +"\n" + phone;
+   
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
             subject: finalSubject,
             text: messageBody
         };
 
-        transporter.sendMail(mailOptions, function (error, info){
-            if (error) {
-                //if error occurs send error as response to client
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
 
-                cb(error,null)
-            } else {
-                //if mail is sent successfully send Sent successfully as response
-                cb(null,info)
-
-            }
-        });
-
+        return sendingMailEstate;
     }
 
     //Sending a mail from the flight form on client side
-    sendFlightMail(way, cabine, departure, arrival, dateDep, dateRet, adult, child, infant, lastname, email, phone, message, cb){
+    async sendFlightMail(way, cabine, departure, arrival, dateDep, dateRet, adult, child, infant, lastname, email, phone, message){
 
-        let recap ;
+        let sendingMailEstate ;
+
         let finalSubject = "Vols | Billet d'avion";        
-        let personalData = lastname +"\n" + email +"\n" + phone;
         
+        let personalData = lastname +"\n" + email +"\n" + phone;        
 
-        if(dateRet.length == 0 ){
+        let recap = "Pouvez-vous m'indiquer les prix et différentes possibilités pour mon voyage?"
+                +"\n\n"+"Information de réservation" 
+                + "\n\n" +"Trajet : "+way
+                + "\n" + "Cabine : " + cabine
+                + "\n" +"Départ : " + departure
+                + "\n" +"Arrivée : " + arrival 
+                + "\n" +"Date départ : " + dateDep.split('T')[0]
+                +((dateRet.length > 0)?("\nDate retour : " +dateRet.split('T')[0]) : "")
+                +((adult.toString().length > 0)?("\nPassager adulte : " + adult) : "")
+                +((child.toString().length > 0)?("\nPassager enfant : " + child): "")
+                +((infant.toString().length > 0)?("\nPassager bébé : " + infant) : "")
 
-            recap = "Information de réservation" + "\n\n" + 
-                    "Trajet : "+way + "\n" + 
-                    "Cabine : " + cabine + "\n" +
-                    "Départ : " + departure + "\n" +
-                    "Arrivée : " + arrival + "\n" +
-                    "Date départ : " + dateDep + "\n" +
-                    "Passager adulte : " + adult + "\n" +
-                    "Passager enfant : " + child + "\n" +
-                    "Passager bébé : " + infant + "\n"
-        }
-        else{
+                let messageBody = ((message.length>0)?(message):"") + "\n\n" + recap + "\n\n" + personalData;
 
-            recap = "Information de réservation" + "\n\n" + 
-                    "Trajet : "+way + "\n" + 
-                    "Cabine : " + cabine + "\n" +
-                    "Départ : " + departure + "\n" +
-                    "Arrivée : " + arrival + "\n" +
-                    "Date départ : " + dateDep + "\n" +
-                    "Date retour : " + dateRet + "\n" +
-                    "Passager adulte : " + adult + "\n" +
-                    "Passager enfant : " + child + "\n" +
-                    "Passager bébé : " + infant + "\n"
-        }
-
-
-        let messageBody = message + "\n\n" + recap + "\n\n" + personalData;
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-
-
-        const mailOptions = {
-            from: email,
-            to: evEmail,
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
             subject: finalSubject,
             text: messageBody
         };
 
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
 
-        transporter.sendMail(mailOptions, function (error, info){
-            if (error) {
-                cb(error,null)
-            } else {
-                cb(null,info)
-            }
-        });
+        return sendingMailEstate;
 
     }
 
+
     //Sending a mail from the dhl form on client side
-    sendDhlMail(civility, firstname, lastname, email, phone, country, weight, contains, dimensions, cb) { 
+    async sendDhlMail(civility, firstname, lastname, email, phone, country, weight, contains, dimensions) { 
     
-        let personalData ;
+        let sendingMailEstate ;
+
         let finalSubject = "DHL | Dévis expédition colis" ;
         
-        //Parse body of the mail
-        if(phone.length == 0){
-            personalData = civility + " " + firstname + " " + lastname +"\n" +email;
-        }
-        else{
-            personalData = civility + " " + firstname + " " + lastname +"\n" +email +"\n" + phone;;
-        }
-
+        let personalData = civility + " " + firstname+" "+lastname +"\n"+email+"\n"+phone;
         
-        let info = "Informations d'expédition" + "\n\n" + 
+        let info = "Bonjour,\n\nJ'aimerais simuler une expédition DHL pour avoir un apperçu du prix."+ "\n\n"+
+                    "Informations d'expédition" + "\n\n" + 
                     "Départ : Cameroun" + "\n" +
                     "Destination : "+country + "\n" + 
                     "Poids : " + weight + "\n" +
                     "Contenu : " + contains + "\n" +
                     "Dimensions du colis : " + dimensions ;
-            
-        
 
-        let messageBody = "Bonjour," +"\n\n"+ info + "\n\n" + personalData;
+        let messageBody = info + "\n" + personalData;
 
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-
-
-        const mailOptions = {
-            from: email,
-            to: evEmail,
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
             subject: finalSubject,
             text: messageBody
         };
 
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
 
-        transporter.sendMail(mailOptions, function (error, info){
-            if (error) {
-                cb(error,null)
-            } else {
-                cb(null,info)
-            }
-        });
+        return sendingMailEstate;
 
     }
 
-    //Sending a mail from the car form on client side
-    sendCarMail(reason, town, capacity, driver, dateDeb, dateFin, heureDeb, heureFin, extras, civility, firstname, lastname, email, phone, cb) { 
     
+    //Sending a mail from the car form on client side
+    async sendCarMail(reason, town, capacity, driver, dateDeb, dateFin, heureDeb, heureFin, extras, civility, firstname, lastname, email, phone) { 
+    
+        let sendingMailEstate ;
+
         let finalSubject = "Voiture | Location de voiture" ;
         
         let personalData = civility + " " + firstname + " " + lastname +"\n" +email +"\n" + phone ;
+        
+        let extrasList = [];
+
+        if(extras.length > 0){
+            extras.forEach((element) => {
+                extrasList.push(element+" ")
+            });
+        }
+
+        let info = "Bonjour,\n\nJ'aimerais louer un véhicule \n\n"
+                    +"Information de location \n\n"
+                    + "Motif de location : " +reason + "\n" 
+                    + "Ville : " + town + "\n"
+                    + "Nombre de places : " + capacity + "\n"
+                    + "Location : " + driver + "\n"
+                    + "Date début : " + dateDeb.split('T')[0] + ((heureDeb.length>0)? " à "+heureDeb: "")  + "\n"
+                    + "Date fin : " + dateFin.split('T')[0] + ((heureFin.length>0)? " à "+heureFin: "") + "\n"
+                    + ((extras.length > 0)?"Extras : " + extrasList : "")
+
+        let messageBody = info + "\n\n" + personalData;
+
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
+            subject: finalSubject,
+            text: messageBody
+        };
+
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
+
+        return sendingMailEstate;
+
+    }
+
+    
+    //Sending a mail from the Apartment form on client side
+    async sendApartMail(type, town, dateDeb, dateFin, extras, civility, firstname, lastname, email, phone){
+
+        let sendingMailEstate ;
+
+        let personalData = civility + " " + firstname + " " + lastname +"\n" +email +"\n" + phone ;
+        
+        let finalSubject = "Appartement | Location appartement meublé" ;
+
         let extrasList = [];
 
         if(extras.length > 0){
@@ -170,86 +199,40 @@ class MailService{
             });
         }
 
-        let info = "Information de location \n\n"
-                    + "Motif de location : " +reason + "\n" 
-                    + "Ville : " + town + "\n"
-                    + "Nombre de places : " + capacity + "\n"
-                    + "Location : " + driver + "\n"
-                    + "Date début : " + dateDeb + " " + heureDeb + "\n"
-                    + "Date fin : " + dateFin + " " + heureFin + "\n"
-                    + "Extras : " + extrasList
-
-        let messageBody = "Bonjour, " +"\n\n"+  info + "\n\n" + personalData;
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-
-        const mailOptions = {
-            from: email,
-            to: evEmail,
-            subject: finalSubject,
-            text: messageBody
-        };
-
-        console.log(mailOptions)
-
-
-        transporter.sendMail(mailOptions, function (error, info){
-            if (error) {
-                cb(error,null)
-            } else {
-                cb(null,info)
-            }
-        });
-
-    }
-
-    //Sending a mail from the Apartment form on client side
-    sendApartMail(type, town, dateDeb, dateFin, extras, civility, firstname, lastname, email, phone,cb){
-
-        let personalData = civility + " " + firstname + " " + lastname +"\n" +email +"\n" + phone ;
-        let finalSubject = "Appartement | Location appartement meublé" ;
-
-        let extrasList = [];
-
-        if(extras.length > 0){
-            extras.forEach(element => {
-                extrasList += element+" ";
-            });
-        }
-
-        let info = "Information de réservation \n\n"
+        let info = "Bonjour,\n\nJ'aimerais louer un appartement \n\n"
+                    +"Information de location \n\n"
                     + "Type d'appartement : " +type + "\n" 
                     + "Ville : " + town + "\n"
-                    + "Date début : " + dateDeb + "\n"
-                    + "Date fin : " + dateFin + "\n"
-                    + "Extras : " + extrasList
+                    + "Date début : " + dateDeb.split('T')[0] +"\n"
+                    + "Date fin : " + dateFin.split('T')[0] +"\n"
+                    + ((extras.length > 0)?"Extras : " + extrasList : "")
 
-        let messageBody = "Bonjour, " +"\n\n"+ info + "\n\n" + personalData;
+        let messageBody = info + "\n\n" + personalData;
 
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-
-
-        const mailOptions = {
-            from: email,
-            to: evEmail,
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
             subject: finalSubject,
             text: messageBody
         };
 
-        transporter.sendMail(mailOptions, function (error, info){
-            if (error) {
-                cb(error,null)
-            } else {
-                cb(null,info)
-            }
-        });
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
+
+        return sendingMailEstate;
     }
 
+    
     //Sending a mail from the hostel form on client side
-    sendHostelMail(nbr, town, dateDeb, dateFin, extras, civility, firstname, lastname, email, phone,hotels,cb){
+    async sendHostelMail(nbr, town, dateDeb, dateFin, extras, civility, firstname, lastname, email, phone, hotels){
 
-        let info
+        let sendingMailEstate ;
+
         let personalData = civility + " " + firstname + " " + lastname +"\n" +email +"\n" + phone ;
         let finalSubject = "HÖTEL | Hébergement hôtel" ;
 
@@ -257,187 +240,150 @@ class MailService{
 
         if(extras.length > 0){
             extras.forEach(element => {
-                extrasList += element+" ";
+                extrasList.push(element+" ")
             });
         }
 
-        if(hotels.length == 0){
-            info = "Informations de réservation \n\n"
+        let info = "Bonjour,\n\nJ'aimerais effectuer une réservation d'hôtel \n\n"
+            +"Informations de réservation \n\n"
             + "Nombre de chambre(s) : " +nbr + "\n" 
             + "Ville : " + town + "\n"
-            + "Date début : " + dateDeb + "\n"
-            + "Date fin : " + dateFin + "\n"
-            + "Extras : " + extrasList
-        }
-        else{
-            info = "Informations de réservation \n\n"
-            + "Nombre de chambre(s) : " +nbr + "\n" 
-                    + "Ville : " + town + "\n"
-                    + "Date début : " + dateDeb + "\n"
-                    + "Date fin : " + dateFin + "\n"
-                    + "Extras : " + extrasList + "\n"
-                    + "Hotel(s) favoris : " + hotels
-        }
-
+            + "Date début : " + dateDeb.split('T')[0] +"\n"
+            + "Date fin : " + dateFin.split('T')[0] +"\n"
+            + ((extras.length > 0)?"Extras : " + extrasList+"\n" : "")
+            + (hotels.length>0)?("Regardez en priorité: "+hotels):""
         
-        let messageBody = "Bonjour, " +"\n\n"+ info + "\n\n" + personalData;
+        let messageBody = info + "\n\n" + personalData;
 
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-
-
-        const mailOptions = {
-            from: email,
-            to: evEmail,
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
             subject: finalSubject,
             text: messageBody
         };
 
-        transporter.sendMail(mailOptions, function (error, info){
-            
-            if (error) {
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
 
-                cb(error,null)
-            } else {
-
-                cb(null,info)
-            }
-        });
+        return sendingMailEstate;
     }
 
 
-    sendCarParisMail(departure, arrival, date, hour, civility, firstname, lastname, email, cb){
+    async sendCarParisMail(departure, arrival, date, hour, civility, firstname, lastname, email){
+
+        let sendingMailEstate ;
 
         let personalData = civility + " " + firstname + " " + lastname +"\n" +email ;
+
         let finalSubject = "CAR-PARIS | Location VTC Paris" ;
 
-        let info = "Informations de réservation \n\n"
+        let info = "Bonjour,\n\nInformations de réservation \n\n"
             + "Adresse de départ " + departure + "\n" 
             + "Adresse d'arrivée " + arrival + "\n"
-            + "Date : " + date + "\n"
-            + "Heure : " + hour ;
+            + "Date : " + date.split('T')[0] + "\n"
+            + "Heure : " + hour.split('T')[1] ;
 
 
 
-        let messageBody = "Bonjour," + "\n\n" +info + "\n" + personalData;
+        let messageBody = info + "\n" + personalData;
 
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
-    
-    
-            const mailOptions = {
-                from: email,
-                to: evEmail,
-                subject: finalSubject,
-                text: messageBody
-            };
-    
- 
-
-
-                transporter.sendMail(mailOptions, function (error, info){
-                    if (error) {
-                        //if error occurs send error as response to client
+        console.log(messageBody);
         
-                        cb(error,null)
-                    } else {
-                        //if mail is sent successfully send Sent successfully as response
-                        cb(null,info)
-        
-                    }
-                });
+        const mailData = {
+            from: MAILGUN_SENDER_EMAIL,
+            to: 'manduel21@gmail.com',
+            subject: finalSubject,
+            text: messageBody
+        };
 
+        await client.messages.create(MAILGUN_DOMAIN, mailData)
+        .then( res =>{
+            sendingMailEstate = true;
+        })
+        .catch((err)=>{
+            sendingMailEstate = false;
+        })
 
+        return sendingMailEstate;
 
     }
 
-    sendTourMail(circuit,date,logement,civility,lastname,firstname,email,price,nombrePassagerAdult,nombrePassagerEnfant,nombrePassagerBebe, cb){
+
+    async sendTourMail(circuit,date,logement,civility,lastname,firstname,email,nombrePassagerAdult,nombrePassagerEnfant,nombrePassagerBebe){
+
+        let sendingMailEstate ;
 
         let personalData = civility + " " + firstname + " " + lastname +"\n" +email ;
+        
         let finalSubject = "Tourisme | Demande de réservation" ;
 
         let info = "Informations de réservation : \n\n"
-            + "Date : " + date + "\n"
+            + "Date : " + date.split('T')[0] + "\n"
             + "Logement : " +logement+ "\n"
             + "Nombre de personnes total : " + ( nombrePassagerAdult +  nombrePassagerEnfant + nombrePassagerBebe) + "\n"
             + "--->Adulte(s) : " + nombrePassagerAdult + "\n"
             + "--->Enfant(s) : " +nombrePassagerEnfant + "\n"
-            + "--->Bébés(s) : " +nombrePassagerBebe ;
+            + "--->Bébés(s) : " +nombrePassagerBebe
 
-
-
-        let messageBody = "Bonjour,"+
-                        "\nJe souhaite faire une réservation pour le circuit touristique intitulé : " + circuit+
+        let messageBody = "Bonjour,\nJe souhaite faire une réservation pour le circuit touristique intitulé : " + circuit+
                         "\n\n" +info + 
                         "\n\n" + personalData;
-
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
     
     
-            const mailOptions = {
-                from: email,
-                to: evEmail,
+            const mailData = {
+                from: MAILGUN_SENDER_EMAIL,
+                to: 'manduel21@gmail.com',
                 subject: finalSubject,
                 text: messageBody
             };
     
+            await client.messages.create(MAILGUN_DOMAIN, mailData)
+            .then( res =>{
+                sendingMailEstate = true;
+            })
+            .catch((err)=>{
+                sendingMailEstate = false;
+            })
+
+            return sendingMailEstate;
  
-
-
-                transporter.sendMail(mailOptions, function (error, info){
-                    if (error) {
-                        //if error occurs send error as response to client
-        
-                        cb(error,null)
-                    } else {
-                        //if mail is sent successfully send Sent successfully as response
-                        cb(null,info)
-        
-                    }
-                });
-
-
-
     }
 
+    
 
+    async addToNewsletter(email){
 
-    addToNewsletter(email, cb){
+        let sendingMailEstate ;
 
         let finalSubject = "Newsletter | Ajout à la newsletter" ;
 
-
-        let messageBody = "Bonjour, merci de m'ajouter à la newsletter pour profiter de vos promotions et vos nouvelles offres ";
-
-
-        var transporter = nodemailer.createTransport(mailGun(auth)); 
+        let messageBody = "Bonjour,"
+                            +"\nMerci de m'ajouter à votre newsletter pour pouvoir profiter de vos promotions et vos nouvelles offres. "
+                            +"\n\n Mon adresse mail: "+ email
+                            +"\n\n Bonne journée à vous."
     
-    
-            const mailOptions = {
-                from: email,
-                to: evEmail,
+            const mailData = {
+                from: MAILGUN_SENDER_EMAIL,
+                to: 'manduel21@gmail.com',
                 subject: finalSubject,
                 text: messageBody
             };
-    
- 
 
 
-                transporter.sendMail(mailOptions, function (error, info){
-                    if (error) {
-                        //if error occurs send error as response to client
-        
-                        cb(error,null)
-                    } else {
-                        //if mail is sent successfully send Sent successfully as response
-                        cb(null,info)
-        
-                    }
-                });
+           await client.messages.create(MAILGUN_DOMAIN, mailData)
+            .then( res =>{
+                sendingMailEstate = true;
+            })
+            .catch((err)=>{
+                sendingMailEstate = false;
+            })
 
-
-
+            return sendingMailEstate;
     }
 
 

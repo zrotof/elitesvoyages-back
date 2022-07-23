@@ -4,7 +4,6 @@ const router = express.Router();
 const TourService = require('../../services/tourService');
 
 router.get('/', async(req, res) =>{
-
     res.end("You are in the sauce")
 });
 
@@ -39,10 +38,13 @@ router.get('/kribi',async (req,res,next)=>{
 })
 
 router.get('/israel', async (req,res,next)=>{
-
     const tour =  new TourService().getIsrael();
     res.send(tour);
+})
 
+router.get('/allsummary', async (req,res,next)=>{
+    const allToursSummary =  new TourService().getAllToursSummary();
+    res.send(allToursSummary);
 })
 
 

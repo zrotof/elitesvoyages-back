@@ -1,13 +1,13 @@
 const {port} = require('./config/dotEnvConfig.js');
-
-//Import du framework express
 const express = require('express');
+const morgan = require('morgan')
+const cors = require("./cors");
+
 const app = express();
+app.use(morgan('combined'));
 
 const bodyParser = require('body-parser')
 
-//Importing cors
-const cors = require("./cors");
 
 app.use(bodyParser.json());
 
@@ -20,6 +20,7 @@ app.use('/mail', cors.corsWithOptions, require('./routes/mail/mailRoutes'));
   
 //calling to the tour route
 app.use('/tourisme', cors.corsWithOptions, require('./routes/tourism/tourRoutes'));
+
 
 app.listen(port, '0.0.0.0', ()=>console.log(`Listening on port : ${port} ...`));
 

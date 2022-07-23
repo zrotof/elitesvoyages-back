@@ -58,8 +58,162 @@ class TourService{
 
     }
 
-    getAllTours(){
+    getAllToursSummary(){
+        return [
+            {
+              image:"../../../assets/img/tourism/dubai.jpeg",
+              title: "7 Jours et 8 Nuits à Dubaî",
+              country: "Emirates Arabes Unis",
+              description: "La destination la plus prisée du monde n'attend plus que vous pour satisfaire votre curiosité et vous donner des émotions au delà de vos attentes. 7 jours juste pour vous ! ",
+              price: 800000,
+              id: "dubai",
+              tags: [
+                {
+                  icon: 'faPassport',
+                  label: "Visa"
+                },
+                {
+                  icon: 'faPlaneDeparture',
+                  label: "Vol"
+                },
+                {
+                  icon: 'faBed',
+                  label: "Hôtel"
+                },
+                {
+                  icon: 'faShuttleVan',
+                  label: "Navette"
+                },
+                {
+                  icon: 'faMugHot',
+                  label: "Petit-dej"
+                }
+              ]
+            },
+      
+            {
         
+              title: "Vers Les Hauts Lieux De La Chrétienté",
+              price: 2300000,
+              image: "../../../assets/img/home/tourism/isra-egyp.png",
+              id:"israel-egypte",
+              country: "Israel - Egypte",
+              description: "Le peuple d'Israël a une histoire qui se distingue de puis Moïse jusqu'à JÉSUS CHRIST. À travers ces deux personnages, la Bible cesse d'être un mythe car la réalité témoigne de la véracité des récritures. 10 jours pour plonger dans les profondeurs de la chrétienté",
+              tags: [
+                {
+                  icon: 'faPassport',
+                  label: "Visa"
+                },
+                {
+                  icon: 'faPlaneDeparture',
+                  label: "Vol"
+                },
+                {
+                  icon: 'faBed',
+                  label: "Hôtel"
+                },
+                {
+                  icon: 'faShuttleVan',
+                  label: "Navette"
+                },
+                {
+                  icon: 'faMugHot',
+                  label: "Petit-dej"
+                }
+              ]
+      
+            },
+      
+            {
+              image:"../../../assets/img/tourism/caire.jpeg",
+              title: "4 Jours et 3 Nuits au Caire",
+              country: "Egypte",
+              description: "Amoureux de l'histoire, l'Égypte vous appelle à travers ses pyramides, ses sarcophages et toute autre envie de plonger dans l'histoire. C'est aussi un centre attractif des affaires pour commerçants et rencontres importantes.",
+              price: 450000,
+              id: "caire",
+              tags: [
+                {
+                  icon: 'faPassport',
+                  label: "Visa"
+                },
+                {
+                  icon: 'faPlaneDeparture',
+                  label: "Vol"
+                },
+                {
+                  icon: 'faBed',
+                  label: "Hôtel"
+                },
+                {
+                  icon: 'faShuttleVan',
+                  label: "Navette"
+                },
+                {
+                  icon: 'faMugHot',
+                  label: "Petit-dej"
+                }
+              ]
+            },
+            {
+              image:"../../../assets/img/tourism/israel.jpeg",
+              title: "Voyage en Terre Sainte",
+              country: "Israêl",
+              description: "Offrez-vous votre voyage en Terre Sainte à la carte en choisissant ce que vous souhaitez découvrir et défnissez le nombre de jours qui vont convient. Le prix peut varier seon que vous soyez seul ou en groupe. Bible en main nous vous conduisons vers des émotions Saintes",
+              price: 1800000,
+              id: "israel",
+              tags: [
+                {
+                  icon: 'faPassport',
+                  label: "Visa"
+                },
+                {
+                  icon: 'faPlaneDeparture',
+                  label: "Vol"
+                },
+                {
+                  icon: 'faBed',
+                  label: "Hôtel"
+                },
+                {
+                  icon: 'faShuttleVan',
+                  label: "Navette"
+                },
+                {
+                  icon: 'faMugHot',
+                  label: "Petit-dej"
+                }
+              ]
+            },
+      
+            {
+              image:"../../../assets/img/tourism/kribi.jpeg",
+              title: "Weekend en amoureux à Kribi",
+              country: "Cameroun",
+              description: "Kribi la belle, une destination exotique au coeur de l'Afrique en miniature. Nous vous promettons un séjour qui vous bercera et un repos bien mérité tout en profitant de ses plages ydiliques et ses sables fins. Nhésitez-plus et laissez-vous tenter",
+              price: 130000,
+              id: "kribi",
+              tags: [
+      
+                {
+                  icon: 'faBed',
+                  label: "Hôtel/Appartement"
+                },
+                {
+                  icon: 'faShuttleVan',
+                  label: "Bus VIP"
+                },
+                {
+                  icon: 'faMugHot',
+                  label: "Petit-dej"
+                }
+              ]
+            }
+          ]
+      
+    }
+
+    getTopTours(){
+
     }
 
 
@@ -88,18 +242,38 @@ class TourService{
                   "alt": "Description for Image 1",
                 },
                 {
-                  "previewImageSrc": "../../../assets/img/home/tourism/caire.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/home/tourism/caire.jpeg",
+                    "previewImageSrc": "../../../assets/img/tour/dubai/ahmed-aldaie-lVSrpZ-0B8o-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/dubai/ahmed-aldaie-lVSrpZ-0B8o-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                },
+                {
+                    "previewImageSrc": "../../../assets/img/tour/dubai/spacejoy-8wDnylxemkk-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/dubai/spacejoy-8wDnylxemkk-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                },
+                {
+                  "previewImageSrc": "../../../assets/img/tour/dubai/gabriel-garcia-marengo-XaDsH-O2QXs-unsplash.jpg",
+                  "thumbnailImageSrc": "../../../assets/img/tour/dubai/gabriel-garcia-marengo-XaDsH-O2QXs-unsplash.jpg",
                   "alt": "Description for Image 1",
                 },
                 {
-                  "previewImageSrc": "../../../assets/img/home/tourism/kribi.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/home/tourism/kribi.jpeg",
+                  "previewImageSrc": "../../../assets/img/tour/dubai/fernando-jorge-2dtvA_QgF6Q-unsplash.jpg",
+                  "thumbnailImageSrc": "../../../assets/img/tour/dubai/fernando-jorge-2dtvA_QgF6Q-unsplash.jpg",
                   "alt": "Description for Image 1",
                 },
                 {
-                  "previewImageSrc": "../../../assets/img/tourism/dubai.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/tourism/dubai.jpeg",
+                  "previewImageSrc": "../../../assets/img/tour/dubai/mostafa-meraji-WwKXdsaelXE-unsplash.jpg",
+                  "thumbnailImageSrc": "../../../assets/img/tour/dubai/mostafa-meraji-WwKXdsaelXE-unsplash.jpg",
+                  "alt": "Description for Image 1",
+                },
+                {
+                  "previewImageSrc": "../../../assets/img/tour/dubai/uae-g6739db5e9_1280.jpg",
+                  "thumbnailImageSrc": "../../../assets/img/tour/dubai/uae-g6739db5e9_1280.jpg",
+                  "alt": "Description for Image 1",
+                },
+                {
+                  "previewImageSrc": "../../../assets/img/tour/dubai/dubai-g27a6458b2_1280.jpg",
+                  "thumbnailImageSrc": "../../../assets/img/tour/dubai/dubai-g27a6458b2_1280.jpg",
                   "alt": "Description for Image 1",
                 }
             ],
@@ -139,7 +313,6 @@ class TourService{
             },
             program: {
                 title:"Programme du séjour",
-                teaser: "7 jours de pures plaisirs",
                 days:[
 
                     {
@@ -293,38 +466,54 @@ class TourService{
             },
             program: {
                 title:"Programme du séjour",
-                teaser: "7 jours de pures plaisirs",
                 days:[
+
                     {
                         header: "Jour 1 : Départ",
-                        content:"Jour d’embarquement, rendez vous à 11h00 dans le Hall de l'aéroport pour les formalités de départ. Départ à 17h25 à destination de Dubaï. Après une escale de 2h, vous arrivez à Dubaï le lendemain matin à 08H30 heure de Dubaï. À votre arrivée, vous êtes accueilli par votre guide, qui vous conduit à votre hôtel."
+                        content:[
+                            {text : "Jour d’embarquement, rendez vous à 11h00 dans le Hall de l'aéroport pour les formalités de départ. Départ à 17h25 à destination de Dubaï. Après une escale de 2h, vous arrivez à Dubaï le lendemain matin à 08H30 heure de Dubaï. À votre arrivée, vous êtes accueilli par votre guide, qui vous conduit à votre hôtel."}
+                        ]
                     },
                     {
                         header: "Jour 2 : Arrivée à Dubaï + Croisière Marina",
-                        content:" Vous êtes accueilli(e) et conduit à l’hôtel, où vous faites votre Check-In et un petit déjeuner est disponible pour vous.16h00 Vous pouvez rester vous reposer à l’hôtel ou alors suivre le guide, qui vous emmènera explorer le quartier : Où changer son argent? Où trouver le distributeur, le supermarché et bien sûr répondre à vos nombreuses questions.19h00 départ en voiture pour votre première activité, Croisière sur la Marina de Dubaï . Vous embarquerez sur un bateau traditionnel pour une visite durant trois heures suivi d’un dîner et d’un spectacle de danse."
+                        content:[
+                            {text: "Vous êtes accueilli(e) et conduit à l’hôtel, où vous faites votre Check-In et un petit déjeuner est disponible pour vous.16h00 Vous pouvez rester vous reposer à l’hôtel ou alors suivre le guide, qui vous emmènera explorer le quartier : Où changer son argent? Où trouver le distributeur, le supermarché et bien sûr répondre à vos nombreuses questions.19h00 départ en voiture pour votre première activité, Croisière sur la Marina de Dubaï . Vous embarquerez sur un bateau traditionnel pour une visite durant trois heures suivi d’un dîner et d’un spectacle de danse."}
+                        ]
                     },
                     {
                         header: "Jour 3 : Safari au Désert",
-                        content:"Vous avez le temps de faire une grasse matinée pour récupérer du voyage ou de flemmarder au bord de la piscine après votre petit-déjeuner.A 15H00, une voiture vous récupère à l’hôtel, pour votre activité du jour: Le Safari Désert. Une balade en 4x4 où vous aurez l’opportunité d'affronter les dunes de désert, de monter sur un chameau ou de faire un tour en Quad (moto 4 roues, frais en plus).À la fin de la visite, vous serez accueilli(e) dans un camp traditionnel en plein désert, au programme: Menu Barbecue, Boissons, Spectacle de danseuses du ventre. À la fin du spectacle, vous êtes raccompagné à votre hôtel."
+                        content:[
+                            {text: "Vous avez le temps de faire une grasse matinée pour récupérer du voyage ou de flemmarder au bord de la piscine après votre petit-déjeuner.A 15H00, une voiture vous récupère à l’hôtel, pour votre activité du jour: Le Safari Désert. Une balade en 4x4 où vous aurez l’opportunité d'affronter les dunes de désert, de monter sur un chameau ou de faire un tour en Quad (moto 4 roues, frais en plus).À la fin de la visite, vous serez accueilli(e) dans un camp traditionnel en plein désert, au programme: Menu Barbecue, Boissons, Spectacle de danseuses du ventre. À la fin du spectacle, vous êtes raccompagné à votre hôtel."}
+                        ]
                     },
                     {
                         header: "Jour 4 : Tour De Ville",
-                        content:"Apres petit déjeuner, 9h00 visite guidé de la magnifique ville de Dubaï et tous ses joyaux. Le BURJ AL ARAB, Le BURJ KHALIFA (la plus haute tour du monde) – JUMEIRAH – le centre commercial mall of émirats, le marché des épices – balade."
+                        content:[
+                            {text: "Apres petit déjeuner, 9h00 visite guidé de la magnifique ville de Dubaï et tous ses joyaux. Le BURJ AL ARAB, Le BURJ KHALIFA (la plus haute tour du monde) – JUMEIRAH – le centre commercial mall of émirats, le marché des épices – balade."}
+                        ]
                     },
                     {
                         header: "Jour 5 : Visite Guidée Du Marché",
-                        content:"Apres petit déjeuner – 10h00 direction le marché pour une visite guidé (occasion de découvrir les bons coins des affaires)"
+                        content: [
+                            {text:"Apres petit déjeuner – 10h00 direction le marché pour une visite guidé (occasion de découvrir les bons coins des affaires)"}
+                        ]
                     },
                     {
                         header: "Jour 6 : Journée Libre",
-                        content:"Apres petit déjeuner à l’hôtel – prélèvement test covid – détente et balade"
-                    },
+                        content:[
+                            {text: "Apres petit déjeuner à l’hôtel – prélèvement test covid – détente et balade"
+                        }
+                        ]},
                     {
                         header: "Jour 7 : Dernier jour",
-                        content:"Petit déjeuner – shopping pour nos visiteur – soirée aéroport Formalité d’enregistrement – fin du séjour."
-                    }
-                ],
-                bedrooms: [
+                        content:[
+                            {text: "Petit déjeuner – shopping pour nos visiteur – soirée aéroport Formalité d’enregistrement – fin du séjour."
+                        }
+                        ]}
+                ]
+            },
+            
+            bedrooms: [
                     {
                         key: 1,
                         name: "Chambre double",
@@ -337,18 +526,9 @@ class TourService{
                         price: 850000,
                         explain: "seul dans une chambre"
 
-                    },
-                    {
-                        key: 3,
-                        name: "Chambre couple",
-                        price: 1000000,
-                        explain: "en couple dans une chambre sur un lit"
-
                     }
-                ]
-                
-            },
-            date:{
+                ]    
+            ,date:{
                 editable: true,
                 value: ""
             },
@@ -359,7 +539,7 @@ class TourService{
     getKribiTour(){
 
         return {
-            title: "Voyage en Terre Sainte",
+            title: "Weekend détente en amoureux à Kribi",
             infos:[
                 {
                     icon:"faMapMarkerAlt",
@@ -407,7 +587,7 @@ class TourService{
                 tags: [
                     {
                         icon:"faBed",
-                        text:"Logement Hôtel, Appartement"
+                        text:"Logement Hôtel ou Appartement"
                     },
                     {
                         icon:"faShuttleVan",
@@ -425,11 +605,10 @@ class TourService{
             },
             program: {
                 title:"Programme du séjour",
-                teaser: "",
                 days:[
 
                     {
-                        header: "Jour 1 : Départ",
+                        header: "Jour 1 : Départ Douala ou Yaoundé",
                         content:[
                             {text : "Départ du Cameroun pour Israel."},
                             {text: "Accueil et réception par notre équipe sur place, assistance des formalités douanières et de police, et direction Galilée"}
@@ -469,7 +648,6 @@ class TourService{
                             }
                         ]
                     }
-
                 ]
             },
             bedrooms: [
@@ -573,7 +751,6 @@ class TourService{
             },
             program: {
                 title:"Programme du séjour",
-                teaser: "7 jours de pures plaisirs",
                 days:[
                     {
                         header: "Jour 2 : Départ",
@@ -676,25 +853,51 @@ class TourService{
             ],
             images: [
                 {
-                  "previewImageSrc": "../../../assets/img/tourism/dubai.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/tourism/dubai.jpeg",
-                  "alt": "Description for Image 1",
-                },
-                {
-                  "previewImageSrc": "../../../assets/img/home/tourism/caire.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/home/tourism/caire.jpeg",
-                  "alt": "Description for Image 1",
-                },
-                {
-                  "previewImageSrc": "../../../assets/img/home/tourism/kribi.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/home/tourism/kribi.jpeg",
-                  "alt": "Description for Image 1",
-                },
-                {
-                  "previewImageSrc": "../../../assets/img/tourism/dubai.jpeg",
-                  "thumbnailImageSrc": "../../../assets/img/tourism/dubai.jpeg",
+                  "previewImageSrc": "../../../assets/img/tour/israel/adam-kring-GCsQJtL4Q78-unsplash.jpg",
+                  "thumbnailImageSrc": "../../../assets/img/tour/israel/adam-kring-GCsQJtL4Q78-unsplash.jpg",
                   "alt": "Description for Image 1",
                 }
+                ,{
+                    "previewImageSrc": "../../../assets/img/tour/israel/empty-tomb-g3648e97ef_1280.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/empty-tomb-g3648e97ef_1280.jpg",
+                    "alt": "Description for Image 1",
+                },
+                {
+                    "previewImageSrc": "../../../assets/img/tour/israel/raimond-klavins-jwGcD9EVzIQ-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/raimond-klavins-jwGcD9EVzIQ-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                },
+                {
+                    "previewImageSrc": "../../../assets/img/tour/israel/stairs-g9a4c31a90_1280.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/stairs-g9a4c31a90_1280.jpg",
+                    "alt": "Description for Image 1",
+                  },
+                  {
+                    "previewImageSrc": "../../../assets/img/tour/israel/brandon-morgan-GxbFfu6yRN0-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/brandon-morgan-GxbFfu6yRN0-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                  },
+                  {
+                    "previewImageSrc": "../../../assets/img/tour/israel/brian-kairuz-FJJURnzsezE-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/brian-kairuz-FJJURnzsezE-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                  },
+                  {
+                    "previewImageSrc": "../../../assets/img/tour/israel/roxanne-desgagnes-di1tfXuDdOg-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/roxanne-desgagnes-di1tfXuDdOg-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                  },
+                  
+                  {
+                    "previewImageSrc": "../../../assets/img/tour/israel/265294340.jpeg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/265294340.jpeg",
+                    "alt": "Description for Image 1",
+                  },
+                  {
+                    "previewImageSrc": "../../../assets/img/tour/israel/adam-jang-Molhe1qQRWI-unsplash.jpg",
+                    "thumbnailImageSrc": "../../../assets/img/tour/israel/adam-jang-Molhe1qQRWI-unsplash.jpg",
+                    "alt": "Description for Image 1",
+                  }
             ],
             description :{
                 title: "Description",
@@ -734,7 +937,6 @@ class TourService{
             },
             program: {
                 title:"Programme du séjour",
-                teaser: "6 jours de découverte de sites biblique",
                 days:[
 
                     {
