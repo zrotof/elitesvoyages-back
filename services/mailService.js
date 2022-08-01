@@ -21,7 +21,6 @@ const client = mailgun.client({
 
 class MailService{
 
-
     //Sending a mail from the contact form on client side
     async sendContactMail(civility, firstname, lastname, email, phone, preference, subject, text){
 
@@ -72,7 +71,7 @@ class MailService{
                 +((child.toString().length > 0)?("\nPassager enfant : " + child): "")
                 +((infant.toString().length > 0)?("\nPassager bébé : " + infant) : "")
 
-                let messageBody = ((message.length>0)?(message):"") + "\n\n" + recap + "\n\n" + personalData;
+                let messageBody = ((message.length>0)?(message):"Bonjour") + "\n\n" + recap + "\n\n" + personalData;
 
         const mailData = {
             from: MAILGUN_SENDER_EMAIL,
@@ -90,9 +89,7 @@ class MailService{
         })
 
         return sendingMailEstate;
-
     }
-
 
     //Sending a mail from the dhl form on client side
     async sendDhlMail(civility, firstname, lastname, email, phone, country, weight, contains, dimensions) { 
@@ -131,7 +128,6 @@ class MailService{
         return sendingMailEstate;
 
     }
-
     
     //Sending a mail from the car form on client side
     async sendCarMail(reason, town, capacity, driver, dateDeb, dateFin, heureDeb, heureFin, extras, civility, firstname, lastname, email, phone) { 
@@ -180,7 +176,6 @@ class MailService{
         return sendingMailEstate;
 
     }
-
     
     //Sending a mail from the Apartment form on client side
     async sendApartMail(type, town, dateDeb, dateFin, extras, civility, firstname, lastname, email, phone){
@@ -227,7 +222,6 @@ class MailService{
         return sendingMailEstate;
     }
 
-    
     //Sending a mail from the hostel form on client side
     async sendHostelMail(nbr, town, dateDeb, dateFin, extras, civility, firstname, lastname, email, phone, hotels){
 
@@ -273,7 +267,6 @@ class MailService{
         return sendingMailEstate;
     }
 
-
     async sendCarParisMail(departure, arrival, date, hour, civility, firstname, lastname, email){
 
         let sendingMailEstate ;
@@ -312,7 +305,6 @@ class MailService{
         return sendingMailEstate;
 
     }
-
 
     async sendTourMail(circuit,date,logement,civility,lastname,firstname,email,nombrePassagerAdult,nombrePassagerEnfant,nombrePassagerBebe){
 
@@ -354,8 +346,6 @@ class MailService{
  
     }
 
-    
-
     async addToNewsletter(email){
 
         let sendingMailEstate ;
@@ -385,9 +375,6 @@ class MailService{
 
             return sendingMailEstate;
     }
-
-
-    
 
 }
 

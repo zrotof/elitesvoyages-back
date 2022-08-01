@@ -15,6 +15,9 @@ app.get('/', (req,res)=>{
         res.send("Le monde chico et tout ce qu'il ya dedans");
 });
 
+//calling to the employee route
+app.use('/employe', cors.corsWithOptions, require('./routes/employe/employeRoutes'));
+
 //calling to the mail route
 app.use('/mail', cors.corsWithOptions, require('./routes/mail/mailRoutes'));
   
